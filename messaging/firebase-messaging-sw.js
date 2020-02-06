@@ -35,16 +35,36 @@ const messaging = firebase.messaging();
 // background (Web app is closed or not in browser focus) then you should
 // implement this optional method.
 // [START background_handler]
+self.addEventListener('notificationclick', function(e) {
+  var notification = e.notification;
+  // var primaryKey = notification.data.primaryKey;
+  var action = e.action;
+  console.log("e.action", action);
+
+  if (action === 'approve') {
+    console.log("Inside Approve!");
+    clients.openWindow('https://www.google.com');
+    notification.close();
+  } else {
+    console.log("Inside Not Approved");
+    clients.openWindow('https://www.yahoo.com');
+    notification.close();
+  }
+});
 messaging.setBackgroundMessageHandler(function(payload) {
+  console.log("Inside setBackgroundMessageHandler()!")
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    icon: '/firebase-logo.png',
+    actions: [{
+      action: 'approve',
+      title: 'Approve',
+      // icon: '/images/demos/action-3-128x128.png'
+    }]
   };
-
-  return self.registration.showNotification(notificationTitle,
-    notificationOptions);
+  return self.registration.showNotification(notificationTitle, notificationOptions);
 });
 // [END background_handler]

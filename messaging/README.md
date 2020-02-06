@@ -98,6 +98,9 @@ The browser gives your app focus when both:
 1. Your app is running in the currently selected browser tab.
 2. The browser tab's window currently has focus, as defined by the operating system.
 
+### Notification Response Handler
+The notification gives you option to approve certain action using `self.addEventListener()`. If you choose it, certain action or task can be executed!
+
 Support
 -------
 
